@@ -104,7 +104,7 @@ describe('AirlineService', () => {
       webPage: faker.internet.url(),
       airports: []
     };
-
+    
     await expect( () => service.create(airline) ).rejects.toHaveProperty("message", "The foundation date cannot be equal or later than today.");
   });
 

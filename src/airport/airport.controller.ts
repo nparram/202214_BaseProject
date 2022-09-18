@@ -27,13 +27,13 @@ export class AirportController {
         return await this.service.create(airport);
     }
 
-    @Put()
+    @Put(':idAirport')
     async update(@Param('idAirport') idAirport: string, @Body() airportDto: AirportDto) {
         const airportUpdate: AirportEntity = plainToInstance(AirportEntity, airportDto);
         return await this.service.update(idAirport, airportUpdate);
     }
 
-    @Delete()
+    @Delete(':idAirport')
     @HttpCode(204)
     async delete(@Param('idAirport') idAirport: string) {
         return await this.service.delete(idAirport);

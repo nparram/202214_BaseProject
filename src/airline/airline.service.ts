@@ -25,7 +25,7 @@ export class AirlineService {
     }
 
     async create(airline: AirlineEntity): Promise<AirlineEntity> {
-        if(airline.fundationDate.getTime() >= Date.now()) {
+        if(new Date(airline.fundationDate).getTime() >= Date.now()) {
             throw new BusinessLogicException("The foundation date cannot be equal or later than today.", BusinessError.PRECONDITION_FAILED);
         }
         return await this.airlineRepository.save(airline);
@@ -36,7 +36,7 @@ export class AirlineService {
         if (!airlineParsisted) {
             throw new BusinessLogicException("The Airline with the given id was not found", BusinessError.NOT_FOUND);
         }
-        if(airline.fundationDate.getTime() >= Date.now()) {
+        if(new Date(airline.fundationDate).getTime() >= Date.now()) {
             throw new BusinessLogicException("The foundation date cannot be equal or later than today.", BusinessError.PRECONDITION_FAILED);
         }
         airline.id = id;

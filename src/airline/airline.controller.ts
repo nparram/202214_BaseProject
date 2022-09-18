@@ -27,13 +27,13 @@ export class AirlineController {
         return await this.service.create(airline);
     }
 
-    @Put()
+    @Put(':idAirline')
     async update(@Param('idAirline') idAirline: string, @Body() airlineDto: AirlineDto) {
         const airlineUpdate: AirlineEntity = plainToInstance(AirlineEntity, airlineDto);
         return await this.service.update(idAirline, airlineUpdate);
     }
 
-    @Delete()
+    @Delete(':idAirline')
     @HttpCode(204)
     async delete(@Param('idAirline') idAirline: string) {
         return await this.service.delete(idAirline);

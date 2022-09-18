@@ -104,7 +104,7 @@ describe('AirportService', () => {
       country: faker.address.country(),
       airlines: []
     };
-
+    console.log(airport)
     await expect( () => service.create(airport) ).rejects.toHaveProperty("message", "Airport code cannot be longer than 3 characters");
   });
 
