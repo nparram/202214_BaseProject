@@ -169,7 +169,7 @@ describe('AirlineAirportService', () => {
   
   it('deleteAirportFromAirline should remove an airport from airline', async () => {
     const airport: AirportEntity = airportsList[0];
-    await service.deleteAirportFromAirline(airline.id, [airport]);
+    await service.deleteAirportFromAirline(airline.id, airport.id);
 
     const storedAirline: AirlineEntity = await airlineRepository.findOne({where: {id: `${airline.id}` }, relations: ["airports"]});
     const deletedAirport: AirportEntity = storedAirline.airports.find(a => a.id === airport.id);
@@ -178,13 +178,13 @@ describe('AirlineAirportService', () => {
 
   it('deleteAirportFromAirline should thrown exception for an invalid airline', async () => {
     const airport: AirportEntity = airportsList[0];
-    await expect( () => service.deleteAirportFromAirline("0", [airport]) ).rejects.toHaveProperty("message", "The Airline with the given id was not found");
+    await expect( () => service.deleteAirportFromAirline("0", airport.id) ).rejects.toHaveProperty("message", "The Airline with the given id was not found");
   });
 
   it('deleteAirportFromAirline should thrown exception for an invalid airport', async () => {
     const airport: AirportEntity = airportsList[0];
     airport.id = "0";
-    await expect( () => service.deleteAirportFromAirline(airline.id, [airport]) ).rejects.toHaveProperty("message", "The Airport with the given id was not found");
+    await expect( () => service.deleteAirportFromAirline(airline.id, airport.id) ).rejects.toHaveProperty("message", "The Airport with the given id was not found");
   });
 
   it('deleteAirportFromAirline should thrown exception for an non associated airport', async () => {
@@ -194,7 +194,7 @@ describe('AirlineAirportService', () => {
       city: faker.address.city(),
       country: faker.address.country()
     });
-    await expect( () => service.deleteAirportFromAirline(airline.id, [airport]) ).rejects.toHaveProperty("message", "The Airport with the given id is not associated to the Airline");
+    await expect( () => service.deleteAirportFromAirline(airline.id, airport.id) ).rejects.toHaveProperty("message", "The Airport with the given id is not associated to the Airline");
   });
 
 });
