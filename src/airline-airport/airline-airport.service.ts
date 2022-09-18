@@ -22,7 +22,7 @@ export class AirlineAirportService {
             throw new BusinessLogicException("The Airport with the given id was not found", BusinessError.NOT_FOUND);
         }
         
-        const airline: AirlineEntity = await this.airlineRepository.findOne({ where: { id: idAirline } });        
+        const airline: AirlineEntity = await this.airlineRepository.findOne({ where: { id: idAirline }, relations: ["airports"] });        
         if (!airline) {
             throw new BusinessLogicException("The Airline with the given id was not found", BusinessError.NOT_FOUND);
         }
@@ -32,7 +32,7 @@ export class AirlineAirportService {
     }
 
     async findAirportsFromAirline(idAirline: string): Promise<AirportEntity[]> {
-        const airline: AirlineEntity = await this.airlineRepository.findOne({ where: { id: idAirline } });        
+        const airline: AirlineEntity = await this.airlineRepository.findOne({ where: { id: idAirline }, relations: ["airports"] });        
         if (!airline) {
             throw new BusinessLogicException("The Airline with the given id was not found", BusinessError.NOT_FOUND);
         }
@@ -46,7 +46,7 @@ export class AirlineAirportService {
             throw new BusinessLogicException("The Airport with the given id was not found", BusinessError.NOT_FOUND);
         }
         
-        const airline: AirlineEntity = await this.airlineRepository.findOne({ where: { id: idAirline } });        
+        const airline: AirlineEntity = await this.airlineRepository.findOne({ where: { id: idAirline }, relations: ["airports"] });        
         if (!airline) {
             throw new BusinessLogicException("The Airline with the given id was not found", BusinessError.NOT_FOUND);
         }

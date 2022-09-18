@@ -19,13 +19,13 @@ export class AirlineService {
     async findOne(id: string): Promise<AirlineEntity> {
         const airline: AirlineEntity = await this.airlineRepository.findOne({ where: { id }, relations: ["airports"] });
         if (!airline)
-            throw new BusinessLogicException("The Airport with the given id was not found", BusinessError.NOT_FOUND);
+            throw new BusinessLogicException("The Airline with the given id was not found", BusinessError.NOT_FOUND);
 
         return airline;
     }
 
     async create(airline: AirlineEntity): Promise<AirlineEntity> {
-        if(airline.fundationDate.getDate() >= Date.now()) {
+        if(airline.fundationDate.getTime() >= Date.now()) {
             throw new BusinessLogicException("The foundation date cannot be equal or later than today.", BusinessError.PRECONDITION_FAILED);
         }
         return await this.airlineRepository.save(airline);
@@ -34,9 +34,9 @@ export class AirlineService {
     async update(id: string, airline: AirlineEntity): Promise<AirlineEntity> {
         const airlineParsisted: AirlineEntity = await this.airlineRepository.findOne({ where: { id } });        
         if (!airlineParsisted) {
-            throw new BusinessLogicException("The Airport with the given id was not found", BusinessError.NOT_FOUND);
+            throw new BusinessLogicException("The Airline with the given id was not found", BusinessError.NOT_FOUND);
         }
-        if(airlineParsisted.fundationDate.getDate() >= Date.now()) {
+        if(airline.fundationDate.getTime() >= Date.now()) {
             throw new BusinessLogicException("The foundation date cannot be equal or later than today.", BusinessError.PRECONDITION_FAILED);
         }
         airline.id = id;
@@ -46,7 +46,7 @@ export class AirlineService {
     async delete(id: string) {
         const airline: AirlineEntity = await this.airlineRepository.findOne({ where: { id } });        
         if (!airline)
-            throw new BusinessLogicException("The Airport with the given id was not found", BusinessError.NOT_FOUND);
+            throw new BusinessLogicException("The Airline with the given id was not found", BusinessError.NOT_FOUND);
         await this.airlineRepository.remove(airline);
     }
 }

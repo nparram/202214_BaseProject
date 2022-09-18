@@ -13,11 +13,11 @@ export class AirportService {
     ) {}
 
     async findAll(): Promise<AirportEntity[]> {
-        return await this.airportRepository.find({ relations: ["airports"] });
+        return await this.airportRepository.find({ relations: ["airlines"] });
     }
 
     async findOne(id: string): Promise<AirportEntity> {
-        const airport: AirportEntity = await this.airportRepository.findOne({ where: { id }, relations: ["airports"] });
+        const airport: AirportEntity = await this.airportRepository.findOne({ where: { id }, relations: ["airlines"] });
         if (!airport) {
             throw new BusinessLogicException("The Airport with the given id was not found", BusinessError.NOT_FOUND);
         }
@@ -25,7 +25,7 @@ export class AirportService {
     }
 
     async create(airport: AirportEntity): Promise<AirportEntity> {
-        if( airport.code.length > 3 ) {
+        if( airport.code.length !== 3 ) {
             throw new BusinessLogicException("Airport code cannot be longer than 3 characters", BusinessError.PRECONDITION_FAILED);
         }
         return await this.airportRepository.save(airport);
@@ -36,7 +36,7 @@ export class AirportService {
         if (!airportParsisted) {
             throw new BusinessLogicException("The Airport with the given id was not found", BusinessError.NOT_FOUND);
         }
-        if( airport.code.length > 3 ) {
+        if( airport.code.length !== 3 ) {
             throw new BusinessLogicException("Airport code cannot be longer than 3 characters", BusinessError.PRECONDITION_FAILED);
         }
         airport.id = id;
